@@ -7,6 +7,7 @@ export const piecesPosition = {
     'f8': 'black_bishop',
     'g8': 'black_knight',
     'h8': 'black_rook',
+
     'a7': 'black_pawn',
     'b7': 'black_pawn',
     'c7': 'black_pawn',
@@ -24,6 +25,7 @@ export const piecesPosition = {
     'f1': 'white_bishop',
     'g1': 'white_knight',
     'h1': 'white_rook',
+    
     'a2': 'white_pawn',
     'b2': 'white_pawn',
     'c2': 'white_pawn',

@@ -1,13 +1,21 @@
 export const data = {
-    isboxClicked : false,
+    isBoxClicked : false,
     
     boxClicked : null,
 
-    changeIsBoxClicked(pieceBoxId){
-        this.isboxClicked = !this.isboxClicked
+    changeIsBoxClicked(){
+        this.isBoxClicked = !this.isBoxClicked
+    },
 
-        if (this.isboxClicked){
+    setBoxClicked(pieceBoxId){
+        if (this.isBoxClicked){
             this.boxClicked = pieceBoxId;
+        }
+    },
+
+    resetBoxClicked(){
+        if (this.boxClicked){
+            this.boxClicked = null
         }
     }
 
