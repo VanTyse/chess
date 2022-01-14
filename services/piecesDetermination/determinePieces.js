@@ -5,94 +5,108 @@ import queen from './queen.js';
 import knight from './knight.js';
 import king from './king.js';
 import { playerTurn } from '../playerTurn.js';
+import { checkmate } from '../checkmate.js';
 
 export const determinePiece = {
-    determineCurrentPositions({ pieceType, pieceBoxId, isWhitePiece }){
+    getCurrentDeterminations({ pieceType, pieceBoxId, isWhitePiece }, game){
         if (pieceType === 'white_pawn' || pieceType === 'black_pawn'){
-            this.determinePawn({pieceBoxId, isWhitePiece});
+            this.determinePawn({pieceBoxId, isWhitePiece}, game);
         }
 
         if (pieceType === 'white_bishop' || pieceType === 'black_bishop'){
-            this.determineBishop({pieceBoxId, isWhitePiece})
+            this.determineBishop({pieceBoxId, isWhitePiece}, game)
         }
 
         if (pieceType === 'white_rook' || pieceType === 'black_rook'){
-            this.determineRook({pieceBoxId, isWhitePiece})
+            this.determineRook({pieceBoxId, isWhitePiece}, game)
         }
 
         if (pieceType === 'white_queen' || pieceType === 'black_queen'){
-            this.determineQueen({pieceBoxId, isWhitePiece})
+            this.determineQueen({pieceBoxId, isWhitePiece}, game)
         }
 
         if (pieceType === 'white_knight' || pieceType === 'black_knight'){
-            this.determineKnight({pieceBoxId, isWhitePiece})
+            this.determineKnight({pieceBoxId, isWhitePiece}, game)
         }
 
         if (pieceType === 'white_king' || pieceType === 'black_king'){
-            this.determineKing({pieceBoxId, isWhitePiece})
-        }
-        for (let position of this.possiblePositions){
-            let box = document.querySelector(`#${position}`)
-            box.classList.add('possible-square');
+            this.determineKing({pieceBoxId, isWhitePiece}, game)
         }
     },
 
-    getPotentialDeterminations(){
-        const pieceBoxes = document.querySelectorAll('.piece-box')
-        pieceBoxes.forEach( pieceBox => {
-            let piece = pieceBox?.querySelector('.piece') ?? null
-            let pieceBoxId = pieceBox.getAttribute('id');
-            if (piece){
-                const pieceType = piece.getAttribute('piece-type');
+    
+    getPotentialDeterminations(game){
+        let potentialDeterminations = [];
+        for (let position in game){
+            if (game[position] !== null){
+                const pieceType = game[position];
+                const pieceBoxId = position;
                 const isWhitePiece = playerTurn.isWhitePiece(pieceType);
                 if (pieceType === 'white_pawn' || pieceType === 'black_pawn'){
-                    this.determinePawn({pieceBoxId, isWhitePiece});
-                    this.fillingPotentialDeterminations()
+                    this.determinePawn({pieceBoxId, isWhitePiece}, game);
+                    this.fillingPotentialDeterminations(potentialDeterminations)
                     this.resetPossibleSolutions()
                 }
         
                 if (pieceType === 'white_bishop' || pieceType === 'black_bishop'){
-                    this.determineBishop({pieceBoxId, isWhitePiece})
-                    this.fillingPotentialDeterminations()
+                    this.determineBishop({pieceBoxId, isWhitePiece}, game)
+                    this.fillingPotentialDeterminations(potentialDeterminations)
                     this.resetPossibleSolutions()
                 }
         
                 if (pieceType === 'white_rook' || pieceType === 'black_rook'){
-                    this.determineRook({pieceBoxId, isWhitePiece})
-                    this.fillingPotentialDeterminations()
+                    this.determineRook({pieceBoxId, isWhitePiece}, game)
+                    this.fillingPotentialDeterminations(potentialDeterminations)
                     this.resetPossibleSolutions()
                 }
         
                 if (pieceType === 'white_queen' || pieceType === 'black_queen'){
-                    this.determineQueen({pieceBoxId, isWhitePiece})
-                    this.fillingPotentialDeterminations()
+                    this.determineQueen({pieceBoxId, isWhitePiece}, game)
+                    this.fillingPotentialDeterminations(potentialDeterminations)
                     this.resetPossibleSolutions()
                 }
         
                 if (pieceType === 'white_knight' || pieceType === 'black_knight'){
-                    this.determineKnight({pieceBoxId, isWhitePiece})
-                    this.fillingPotentialDeterminations()
+                    this.determineKnight({pieceBoxId, isWhitePiece}, game)
+                    this.fillingPotentialDeterminations(potentialDeterminations)
                     this.resetPossibleSolutions()
                 }
         
                 if (pieceType === 'white_king' || pieceType === 'black_king'){
-                    this.determineKing({pieceBoxId, isWhitePiece})
-                    this.fillingPotentialDeterminations()
+                    this.determineKing({pieceBoxId, isWhitePiece}, game)
+                    this.fillingPotentialDeterminations(potentialDeterminations)
                     this.resetPossibleSolutions()
                 }
             }
-        })
+        }
+        this.potentialDeterminations = potentialDeterminations    
+        checkmate.isCheck()
         console.log(this.potentialDeterminations.sort());
+        return potentialDeterminations;
     },
 
     possiblePositions : [],
     potentialDeterminations : [],
 
-    fillingPotentialDeterminations(){
+    fillingPotentialDeterminations(potentialDeterminations){
         for (let i = 0; i < this.possiblePositions.length; i++){
-            if (!this.potentialDeterminations.includes(this.possiblePositions[i])){
-                this.potentialDeterminations.push(this.possiblePositions[i])
+            if (!potentialDeterminations.includes(this.possiblePositions[i])){
+                potentialDeterminations.push(this.possiblePositions[i])
             }
+        }
+    },
+    resetPotentialDeterminations(){
+        this.potentialDeterminations = []
+    },
+
+    setPossiblePositions(array){
+        this.possiblePositions = [...array]
+    },
+
+    displayPossibleSquares(){
+        for (let position of this.possiblePositions){
+            let box = document.querySelector(`#${position}`)
+            box.classList.add('possible-square');
         }
     },
     ...pawn,

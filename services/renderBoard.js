@@ -2,6 +2,7 @@ import {piecesPosition} from '../config/piecesPosition.js';
 import {piecesImages} from '../config/piecesImages.js'
 import {handlePiecesEvents} from '../services/handlePiecesEvents.js'
 import {game} from '../config/game.js'
+import {determinePiece} from '../services/piecesDetermination/determinePieces.js'
 
 let board = document.querySelector('.grid')
 
@@ -32,11 +33,14 @@ export const boardRender = {
             for (let j = 8; j >= 1; j--){
                 let square = document.createElement('div');
                 let squareText = document.createElement('p');
+                let possiblesquare = document.createElement('div');
+                possiblesquare.style.display = 'none'
                 squareText.textContent = `${obj[i]}${j}`
                 squareText.classList.add('show-piece-text')
                 square.id = `${obj[i]}${j}` 
                 square.classList.add('piece-box')
                 square.appendChild(squareText)
+                square.appendChild(possiblesquare)
                 if (innerState){
                     square.classList.add('white');
                     innerState = !innerState;
@@ -88,30 +92,6 @@ export const boardRender = {
         if(pieceBoxId !== boxClicked){
             game[pieceBoxId] = game[boxClicked]
             game[boxClicked] = null
-            console.log(game);
-        }
-        
-        {// let piece;
-        // for (const position in game){
-        //     if (position === boxClicked){
-        //         let box = document.querySelector(`#${boxClicked}`);
-        //         piece = box.childNodes[1]
-        //         console.log(piece);
-        //         piece.remove()
-        //     }  
-        //     if (position === pieceBoxId){
-        //         let box = document.querySelector(`#${pieceBoxId}`);
-        //         let piece2 = box?.childNodes[1] ?? null
-        //         console.log(piece2);
-        //         if(piece2 === null){
-        //             box.appendChild(piece)
-        //         }
-        //         else{
-        //             piece2.remove()
-        //             box.appendChild(piece)
-        //         }
-        //     }
-        // }
         }
 
         for (let position in game){
@@ -135,7 +115,9 @@ export const boardRender = {
                 }
             }            
         }
-        this.resetPiecesEventListeners()
+        this.resetPiecesEventListeners();
+        
+
     },
 
     

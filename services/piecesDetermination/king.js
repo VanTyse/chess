@@ -2,196 +2,45 @@ import { playerTurn } from "../playerTurn.js";
 import { alphabetToNumber, numberToAlphabet } from "../../config/alphabetNumbers.js";
 
 export default{
-    determineKing({pieceBoxId, isWhitePiece}){
+    determineKing({pieceBoxId, isWhitePiece}, game){
         const col = +alphabetToNumber[pieceBoxId.slice(0, 1)];
         const row = +pieceBoxId.slice(1, 2)
         let possiblePositions = this.possiblePositions;
+        
+        const northBox = (row + 1 > 8) ? null : `${numberToAlphabet[col]}${row + 1}`
+        const southBox = (row - 1 < 1) ? null : `${numberToAlphabet[col]}${row - 1}`
+        const eastBox = (col + 1 > 8) ? null : `${numberToAlphabet[col + 1]}${row}`
+        const westBox = (col - 1 < 1) ? null : `${numberToAlphabet[col - 1]}${row}`
+        const northEastBox = (col + 1 > 8 || row + 1 > 8) ? null : `${numberToAlphabet[col + 1]}${row + 1}`
+        const northWestBox = (col - 1 < 1 || row + 1 > 8) ? null : `${numberToAlphabet[col - 1]}${row + 1}`
+        const southEastBox = (col + 1 > 8 || row - 1 < 1) ? null : `${numberToAlphabet[col + 1]}${row - 1}`
+        const southWestBox = (col - 1 < 1 || row - 1 < 1) ? null : `${numberToAlphabet[col - 1]}${row - 1}`
 
-        for (let i = 0; i < 2; i++){
-            for (let j = 0; (j < 2); j++){
-                if(i === 0 && j===0){
-                    continue
-                }
+        
+        const boxes = [northBox, southBox, eastBox, westBox, northEastBox, northWestBox, southEastBox, southWestBox]
 
-                let dynamicRow = row + i;
-                let dynamicCol= col + j;
-
-                
-                if (dynamicCol > 8 || dynamicRow > 8){
-                    break
-                }
-
-                let position = `${numberToAlphabet[dynamicCol]}${dynamicRow}`;
-                let currentBox = document.querySelector(`#${position}`);
-                let piece = currentBox?.querySelector('.piece') ?? null;
-
-                if (isWhitePiece){
-                    if (piece){
-                        let pieceType = piece.getAttribute('piece-type')
-                        if (!playerTurn.isWhitePiece(pieceType)){
-                            possiblePositions.push(position)
-                            break
-                        }
-                        else{
-                            break
-                        }
-                    }else{
-                        possiblePositions.push(position);
+        boxes.forEach( pos => {
+            if(pos === null)return;
+            let piece = game[pos] ? true : false
+            if (isWhitePiece){
+                if (piece){
+                    let pieceType = game[pos];
+                    if (!playerTurn.isWhitePiece(pieceType)){
+                        possiblePositions.push(pos)
                     }
                 }else{
-                    if(piece){
-                        let pieceType = piece.getAttribute('piece-type');
-                        if(playerTurn.isWhitePiece(pieceType)){
-                            possiblePositions.push(position);
-                            break;
-                        }
-                        else{
-                            break
-                        }
-                    }else{
-                        possiblePositions.push(position);
+                    possiblePositions.push(pos);
+                }
+            }else{
+                if(piece){
+                    let pieceType = game[pos];
+                    if(playerTurn.isWhitePiece(pieceType)){
+                        possiblePositions.push(pos);
                     }
+                }else{
+                    possiblePositions.push(pos);
                 }
             }
-        }
-
-        for (let i = 0; i < 2; i++){
-            for (let j = 0; (j < 2); j++){
-                if(i === 0 && j===0){
-                    continue
-                }
-                let dynamicRow = row + i;
-                let dynamicCol= col - j;
-
-                
-                if (dynamicCol < 1 || dynamicRow > 8){
-                    break
-                }
-
-                let position = `${numberToAlphabet[dynamicCol]}${dynamicRow}`;
-                let currentBox = document.querySelector(`#${position}`);
-                let piece = currentBox?.querySelector('.piece') ?? null;
-
-                if (isWhitePiece){
-                    if (piece){
-                        let pieceType = piece.getAttribute('piece-type')
-                        if (!playerTurn.isWhitePiece(pieceType)){
-                            possiblePositions.push(position)
-                            break
-                        }
-                        else{
-                            break
-                        }
-                    }else{
-                        possiblePositions.push(position);
-                    }
-                }else{
-                    if(piece){
-                        let pieceType = piece.getAttribute('piece-type');
-                        if(playerTurn.isWhitePiece(pieceType)){
-                            possiblePositions.push(position);
-                            break;
-                        }
-                        else{
-                            break
-                        }
-                    }else{
-                        possiblePositions.push(position);
-                    }
-                }
-            }           
-        }
-
-        for (let i = 0; i < 2; i++){
-            for (let j = 0; (j < 2); j++){
-                if(i === 0 && j===0){
-                    continue
-                }
-                let dynamicRow = row - i;
-                let dynamicCol= col + j;
-
-                
-                if (dynamicCol > 8 || dynamicRow < 1){
-                    break
-                }
-
-                let position = `${numberToAlphabet[dynamicCol]}${dynamicRow}`;
-                let currentBox = document.querySelector(`#${position}`);
-                let piece = currentBox?.querySelector('.piece') ?? null;
-
-                if (isWhitePiece){
-                    if (piece){
-                        let pieceType = piece.getAttribute('piece-type')
-                        if (!playerTurn.isWhitePiece(pieceType)){
-                            possiblePositions.push(position)
-                            break
-                        }
-                        else{
-                            break
-                        }
-                    }else{
-                        possiblePositions.push(position);
-                    }
-                }else{
-                    if(piece){
-                        let pieceType = piece.getAttribute('piece-type');
-                        if(playerTurn.isWhitePiece(pieceType)){
-                            possiblePositions.push(position);
-                            break;
-                        }
-                        else{
-                            break
-                        }
-                    }else{
-                        possiblePositions.push(position);
-                    }
-                }
-            }
-        }
-        for (let i = 0; i < 2; i++){
-            for (let j = 0; (j < 2); j++){
-                if(i === 0 && j===0){
-                    continue
-                }
-                let dynamicRow = row - i;
-                let dynamicCol= col - j;
-
-                if (dynamicCol < 1 || dynamicRow < 1){
-                    break
-                }
-
-                let position = `${numberToAlphabet[dynamicCol]}${dynamicRow}`;
-                let currentBox = document.querySelector(`#${position}`);
-                let piece = currentBox?.querySelector('.piece') ?? null;
-
-                if (isWhitePiece){
-                    if (piece){
-                        let pieceType = piece.getAttribute('piece-type')
-                        if (!playerTurn.isWhitePiece(pieceType)){
-                            possiblePositions.push(position)
-                            break
-                        }
-                        else{
-                            break
-                        }
-                    }else{
-                        possiblePositions.push(position);
-                    }
-                }else{
-                    if(piece){
-                        let pieceType = piece.getAttribute('piece-type');
-                        if(playerTurn.isWhitePiece(pieceType)){
-                            possiblePositions.push(position);
-                            break;
-                        }
-                        else{
-                            break
-                        }
-                    }else{
-                        possiblePositions.push(position);
-                    }
-                }
-            }
-        }
+        })   
     }
 }
