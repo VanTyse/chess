@@ -92,3 +92,15 @@ body{
     background-color: crimson;
     border-radius: 5px;
 }
+
+@media screen and (max-width : 768px) {
+    .grid{
+        width: 500px;
+        height: 500px;
+    }
+    
+    .grid div{
+        width: 12.5%;
+        height: 12.5%;
+    }   
+}
