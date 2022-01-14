@@ -16,8 +16,8 @@ body{
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    width: 576px;
-    height: 576px;
+    width: 560px;
+    height: 560px;
     border: 2px solid brown;
 }
 
@@ -36,7 +36,6 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-/*     border: 1px solid dodgerblue; */
 }
 
 .white{
@@ -46,10 +45,6 @@ body{
 .black{
     background-color: dodgerblue;
 }
-/* 
-.possible-square{
-    background-color: hotpink;
-} */
 
 .possible-square div{
     position: absolute;
@@ -92,6 +87,19 @@ body{
     background-color: crimson;
     border-radius: 5px;
 }
+
+/* @media screen and (min-width: 600px) and (max-width : 768px) {
+    .grid{
+        width: 500px;
+        height: 500px;
+    }
+    
+    .grid div{
+        width: 12.5%;
+        height: 12.5%;
+    }   
+} */
+
 
 @media screen and (min-width: 360px) and (max-width : 420px) {
     .grid{
