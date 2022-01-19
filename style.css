@@ -16,13 +16,13 @@ body{
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    width: 560px;
-    height: 560px;
+    width: 576px;
+    height: 576px;
     border: 2px solid brown;
 }
 
 .show-piece-text{
-    display: none;
+    display: block;
     position: absolute;
     right: 0;
     bottom: 0;
@@ -36,6 +36,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid dodgerblue;
 }
 
 .white{
@@ -45,6 +46,10 @@ body{
 .black{
     background-color: dodgerblue;
 }
+/* 
+.possible-square{
+    background-color: hotpink;
+} */
 
 .possible-square div{
     position: absolute;
@@ -86,54 +91,4 @@ body{
     border: none;
     background-color: crimson;
     border-radius: 5px;
-}
-
-/* @media screen and (min-width: 600px) and (max-width : 768px) {
-    .grid{
-        width: 500px;
-        height: 500px;
-    }
-    
-    .grid div{
-        width: 12.5%;
-        height: 12.5%;
-    }   
-} */
-
-
-@media screen and (min-width: 360px) and (max-width : 420px) {
-    .grid{
-        width: 350px;
-        height: 350px;
-    }
-    
-    .grid div{
-        width: 12.5%;
-        height: 12.5%;
-    }   
-}
-
-@media screen and (min-width: 421px) and (max-width : 500px) {
-    .grid{
-        width: 410px;
-        height: 410px;
-    }
-    
-    .grid div{
-        width: 12.5%;
-        height: 12.5%;
-    }   
-}
-
-
-@media screen and (min-width: 501px) and (max-width : 540px) {
-    .grid{
-        width: 500px;
-        height: 500px;
-    }
-    
-    .grid div{
-        width: 12.5%;
-        height: 12.5%;
-    }   
 }

@@ -3,6 +3,10 @@ export const data = {
     
     boxClicked : null,
 
+    hasWhiteKingMoved : false,
+
+    hasBlackKingMoved : false,
+
     changeIsBoxClicked(){
         this.isBoxClicked = !this.isBoxClicked
     },
@@ -17,6 +21,22 @@ export const data = {
         if (this.boxClicked){
             this.boxClicked = null
         }
-    }
+    },
 
+    setWhiteKingMoved(){
+        this.hasWhiteKingMoved = true
+    },
+
+    setBlackKingMoved(){
+        this.hasBlackKingMoved = true
+    },
+
+    castledAlready : {
+        white : false,
+        black : false,
+    },
+
+    setCastledAlready(isWhitePiece){
+        this.castledAlready[isWhitePiece ? 'white' : 'black'] = true
+    }
 }

@@ -6,6 +6,7 @@ import knight from './knight.js';
 import king from './king.js';
 import { playerTurn } from '../playerTurn.js';
 import { checkmate } from '../checkmate.js';
+import { data } from '../../config/data.js';
 
 export const determinePiece = {
     getCurrentDeterminations({ pieceType, pieceBoxId, isWhitePiece }, game){
@@ -30,7 +31,7 @@ export const determinePiece = {
         }
 
         if (pieceType === 'white_king' || pieceType === 'black_king'){
-            this.determineKing({pieceBoxId, isWhitePiece}, game)
+            this.determineKing({pieceBoxId, isWhitePiece}, game);
         }
     },
 
@@ -78,12 +79,51 @@ export const determinePiece = {
                     this.resetPossibleSolutions()
                 }
             }
-        }
-        this.potentialDeterminations = potentialDeterminations    
-        checkmate.isCheck()
-        console.log(this.potentialDeterminations.sort());
+            this.resetPossibleSolutions()
+        }            
         return potentialDeterminations;
     },
+
+    fillPotentialDeterminations(game){
+        const potentialDeterminations = this.getPotentialDeterminations(game)
+        this.potentialDeterminations = potentialDeterminations
+        checkmate.isCheck(game)
+        checkmate.isCheckMate(game)
+    },
+
+    pieceCauseSelfCheck({ pieceBoxId, kingPosition, position }, game){
+        let gameClone = JSON.parse(JSON.stringify(game))
+        gameClone[position] = gameClone[pieceBoxId]
+        gameClone[pieceBoxId] = null
+        this.resetPossibleSolutions()
+        const potentialDeterminations = this.getPotentialDeterminations(gameClone)
+        // console.log(potentialDeterminations);
+        if (potentialDeterminations.includes(kingPosition)){
+            return true
+        }
+        return false
+    },
+
+    pieceCausingSelfCheck({ pieceBoxId, isWhitePiece }, game){
+        let x = []
+        let kingPosition = isWhitePiece ? checkmate.getKingPiecePosition()[0] : 
+                                            checkmate.getKingPiecePosition()[1]
+        this.possiblePositions.forEach( position => {
+            if (kingPosition === pieceBoxId){
+                kingPosition = position
+            }
+            if (!this.pieceCauseSelfCheck({pieceBoxId, kingPosition, position}, game)) {
+                x.push(position)
+            }
+            kingPosition = isWhitePiece ? checkmate.getKingPiecePosition()[0] : 
+                                          checkmate.getKingPiecePosition()[1]    
+        })
+        if (x.length > 0){
+            this.possiblePositions = x;
+        }
+        
+    },
+
 
     possiblePositions : [],
     potentialDeterminations : [],

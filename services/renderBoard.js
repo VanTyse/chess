@@ -88,7 +88,7 @@ export const boardRender = {
         })
     },
 
-    updateBoard({pieceBoxId, boxClicked}){
+    updateBoard({pieceBoxId, boxClicked, rookPosition}){
         if(pieceBoxId !== boxClicked){
             game[pieceBoxId] = game[boxClicked]
             game[boxClicked] = null
@@ -97,6 +97,10 @@ export const boardRender = {
         for (let position in game){
             if (position === boxClicked){
                 document.querySelector(`#${boxClicked}`).querySelector('.piece').remove()
+            }
+
+            if(position === rookPosition){
+                document.querySelector(`#${rookPosition}`).querySelector('.piece').remove()
             }
 
             if (game[position] !== null){

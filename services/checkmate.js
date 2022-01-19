@@ -1,10 +1,12 @@
 import {game} from '../config/game.js'
 import { determinePiece } from './piecesDetermination/determinePieces.js'
+import { playerTurn } from './playerTurn.js'
 
 export const checkmate = {
     gameOver : false,
     check : false,
     checkedPosition : null,
+    kingChecked : null,
     gameClone : undefined,
 
     getGameClone(){
@@ -27,7 +29,7 @@ export const checkmate = {
         return [this.whiteKingPosition, this.blackKingPosition]
     },
 
-    isCheck(){
+    isCheck(game){
         const kingPositions = this.getKingPiecePosition();
         for (let kingPosition of kingPositions){
             if (determinePiece.potentialDeterminations.includes(kingPosition)){
@@ -35,11 +37,43 @@ export const checkmate = {
                 this.check = true;
                 kingBox.classList.add('check')
                 this.checkedPosition = kingPosition;
+                this.kingChecked = game[kingPosition]
                 break
             }else{
-                const kingBox = document.querySelector(`#${kingPosition}`);
                 this.check = false;
-                kingBox.classList.remove('check')
+                this.kingChecked = null;
+                const pieceBoxes = document.querySelectorAll('.piece-box');
+                pieceBoxes.forEach( box => {
+                    box.classList.remove('check')
+                })
+            }
+        }
+    },
+
+    isCheckMate(game){
+        if (this.check){
+            const kingChecked = this.kingChecked;
+            let xxx = [];
+            if (kingChecked) {
+                const kingIsWhitePiece = playerTurn.isWhitePiece(kingChecked);
+                for (let position in game){
+                    if (game[position] !== null && playerTurn.isWhitePiece(game[position]) === kingIsWhitePiece){
+                        let pieceBoxId = position;
+                        let pieceType = game[position]
+                        let isWhitePiece = playerTurn.isWhitePiece(pieceType);
+                        let cantMove = this.cantMoveDueToCheck({pieceType, pieceBoxId, game, isWhitePiece});
+                        if (cantMove === true) {
+                            continue
+                        }
+                        else{
+                            xxx.push(position)
+                            break
+                        }
+                    }
+                }
+                if (xxx.length < 1){
+                    console.log('It is checkmate');
+                }    
             }
         }
     },
@@ -69,8 +103,6 @@ export const checkmate = {
             this.resetGameClone()
             kingPosition = this.checkedPosition
         })
-
-        console.log(certainPositions);
 
         if(certainPositions.length === 0){
             return true
