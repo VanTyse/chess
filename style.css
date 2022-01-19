@@ -16,9 +16,9 @@ body{
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    width: 576px;
-    height: 576px;
-    border: 2px solid brown;
+    width: 560px;
+    height: 560px;
+    border: 2px solid gray;
 }
 
 .show-piece-text{
@@ -27,6 +27,7 @@ body{
     right: 0;
     bottom: 0;
     color: black;
+    font-size: 3vmin;
 }
 
 .grid div{
@@ -36,7 +37,6 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid dodgerblue;
 }
 
 .white{
@@ -44,12 +44,9 @@ body{
 }
 
 .black{
-    background-color: dodgerblue;
+    background-color: gray;
+    /* background-color: turquoise; */
 }
-/* 
-.possible-square{
-    background-color: hotpink;
-} */
 
 .possible-square div{
     position: absolute;
@@ -76,19 +73,100 @@ body{
     background-color: coral;
 }
 
-.settings{
+.menu{
+    display: flex;
     display: none;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     top: 0;
     background: cornsilk;
-    opacity: 0.5;
+    /* background-color: black; */
+    opacity: 0.8;
     width: 100vw;
     height: 100vh;
+    color: dodgerblue;
 }
 
-.settings button{
+.menu button{
     padding: 15px 20px;
     border: none;
-    background-color: crimson;
+    background-color: inherit;
+    /* color: darkgray; */
+    color: black;
     border-radius: 5px;
+    font-size: 18px;
+}
+
+.menu li{
+    list-style-type: none;
+    margin: auto;
+}
+
+.menu li ul button:hover{
+    cursor: pointer;
+}
+
+.menu ul:hover button{
+    background-color: turquoise;
+}
+
+.menu button:active{
+    background-color: turquoise;
+}
+
+
+@media screen and (min-width: 360px) and (max-width : 420px) {
+    .grid{
+        width: 350px;
+        height: 350px;
+    }
+    
+    .grid div{
+        width: 12.5%;
+        height: 12.5%;
+    }   
+    
+    .piece{
+        width: 65%;
+        height: 65%;
+        margin: auto;
+    }
+}
+
+@media screen and (min-width: 421px) and (max-width : 500px) {
+    .grid{
+        width: 410px;
+        height: 410px;
+    }
+    
+    .grid div{
+        width: 12.5%;
+        height: 12.5%;
+    }   
+   
+    .piece{
+        width: 62.5%;
+        height: 62.5%;
+        margin: auto;
+    }
+}
+
+
+@media screen and (min-width: 501px) and (max-width : 540px) {
+    .grid{
+        width: 500px;
+        height: 500px;
+    }
+    
+    .grid div{
+        width: 12.5%;
+        height: 12.5%;
+    }   
+       
+    .piece{
+        width: 60%;
+        height: 60%;
+        margin: auto;
+    }
 }
