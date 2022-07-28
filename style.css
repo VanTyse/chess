@@ -40,11 +40,11 @@ body{
 }
 
 .white{
-    background-color: #f0d9b5;
+    background-color: white;
 }
 
 .black{
-    background-color: rgb(172, 99, 5);
+    background-color: gray;
     /* background-color: turquoise; */
 }
 
